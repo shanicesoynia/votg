@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Versadex OTG - Details</title>
+
+    {% load static %}
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'criminals/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'criminals/main.css '%}" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Orbitron&display=swap" rel="stylesheet">
+
+    <!-- Modal -->
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'criminals:index' %}"><strong>Versadex </strong><i>OnTheGo&raquo;</i></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'criminals:profile' %}">
+                        Welcome, {{ user.first_name }}
+                        {{ user.last_name }}
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'criminals:index' %}">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-item">You are not logged in!</a>
+                </li>
+                <li class="nav-link">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Heading Row -->
+<div class="container">
+
+    <!-- Heading Row -->
+    <div class="row header-sm text-center">
+        <div class="col-md-6 header-text-sm">
+            <h1 class="font-weight-light">{{ vehicle.license_plate }}</h1>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="spacer"></div>
+
+    <div class="row text-center">
+        <div class="col-md-4">
+            <a class="d-inline-block" href="{% url 'criminals:vehicles' %}"><h5>&laquo;Go Back</h5></a>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'criminals:ticket-add' %}" class="btn btn-success btn-md">Add A Ticket</a>
+        </div>
+    </div>
+
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+
+    <!-- Content Row -->
+    <div class="row" id="contentRow">
+        <div class="col-md-12">
+            <h2 class="text-center">Vehicle Details</h2>
+            <hr>
+            <table class="table table-bordered text-center">
+                <thead class="thead-light">
+                <tr>
+                    <th>Registered Owner</th>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Registration</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <a href="{% url 'criminals:detail' vehicle.owner.id %}">
+                            {{ vehicle.owner.firstName }} {{ vehicle.owner.lastName }}
+                        </a>
+                    </td>
+                    <td>{{ vehicle.car_make }}</td>
+                    <td>{{ vehicle.car_model }}</td>
+                    <td>{{ vehicle.car_year }}</td>
+                    <td>{{ vehicle.license_plate }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <br>
+            <h4 class="text-center">Tickets</h4>
+            <br>
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                <tr class="text-center">
+                    <th>Date & Time</th>
+                    <th>Traffic Offence</th>
+                    <th>Location of Offence</th>
+                    <th>Enactment</th>
+                    <th>Fixed Penalty</th>
+                    <th>Points</th>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                {% for i in vehicle.ticket_set.all reversed %}
+                <tr>
+                    <td>{{ i.ticket_date }}</td>
+                    <td>{{ i.offence }}</td>
+                    <td>{{ i.location }}</td>
+                    <td>{{ i.offence.enactment }}</td>
+                    <td>${{ i.offence.fixed_penalty }}.00</td>
+                    <td>{{ i.offence.penalty_points }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="spacer"></div>
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">&copy; Shanice Dick &#183; 00050137 &#183; BSc Internet Technology</p>
+        <p class="m-0 text-center text-white">College of Science Technology and Applied Arts of Trinidad and Tobago</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'criminals/vendors/jquery/jquery.min.js '%}"></script>
+<script src="{% static 'criminals/vendors/bootstrap/js/bootstrap.bundle.min.js '%}"></script>
+</body>
+</html>

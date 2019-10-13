@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Versadex OTG - Search Results</title>
+
+    {% load static %}
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'criminals/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'criminals/main.css '%}" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Orbitron&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'criminals:index' %}"><strong>Versadex </strong><i>OnTheGo&raquo;</i></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'criminals:profile' %}">
+                        Welcome, {{ user.first_name }} {{ user.last_name }}
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'criminals:index' %}">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-item">You are not logged in!</a>
+                </li>
+                <li class="nav-link">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Heading Row -->
+    <div class="row header-sm text-center">
+        <div class="col-md-6 header-text-sm">
+            <h1 class="font-weight-light">Search Results</h1>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="spacer"></div>
+
+    <a href="{% url 'criminals:index' %}"><h5>&laquo;Go Back</h5></a>
+
+    <div class="spacer"></div>
+
+    <!-- Content Row -->
+    <div class="row" id="contentRow">
+        {% for p in search_db %}
+
+        <div class="col-md-4">
+            <div class="card-deck" style="width: 18rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ p.firstName }} {{ p.lastName }}</h5>
+                    <p class="card-text">
+                        <strong>Date of Birth: </strong>{{ p.dob }}
+                        <br> <strong>Area of Residence: </strong>{{ p.city }}
+                        <br> <strong>Case #: </strong>{{ p.permit }}
+                    </p>
+                    <a href="{% url 'criminals:detail' p.id %}" class="btn btn-primary">View Person</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<div class="spacer"></div>
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">&copy; Shanice Dick &#183; 00050137 &#183; BSc Internet Technology</p>
+        <p class="m-0 text-center text-white">College of Science Technology and Applied Arts of Trinidad and Tobago</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'criminals/vendors/jquery/jquery.min.js '%}"></script>
+<script src="{% static 'criminals/vendors/bootstrap/js/bootstrap.bundle.min.js '%}"></script>
+
+</body>
+</html>

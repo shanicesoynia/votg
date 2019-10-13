@@ -1,0 +1,7 @@
+{% for field in form %}
+    <div class="form-group text-center">
+        <label>{{ field.label }}: </label>
+        <br>
+        {{ field }}
+    </div>
+{% endfor %}

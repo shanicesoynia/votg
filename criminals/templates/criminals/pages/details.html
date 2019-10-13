@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Versadex OTG - Details</title>
+
+    {% load static %}
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'criminals/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'criminals/main.css '%}" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Orbitron&display=swap" rel="stylesheet">
+
+    <!-- Modal -->
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'criminals:index' %}"><strong>Versadex </strong><i>OnTheGo&raquo;</i></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'criminals:profile' %}">
+                        Welcome, {{ user.first_name }} {{ user.last_name }}
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'criminals:index' %}">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-item">You are not logged in!</a>
+                </li>
+                <li class="nav-link">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- Heading Row -->
+    <div class="row header-sm text-center">
+        <div class="col-md-6 header-text-sm">
+            <h1 class="font-weight-light">{{ person.firstName }} {{ person.lastName }}</h1>
+        </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- Sub-Nav -->
+    <div class="row text-center">
+        <div class="col-md-4">
+            <a href="{% url 'criminals:persons_of_interest' %}"><h5>&laquo;Go Back</h5></a>
+            <div class="spacer"></div>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'criminals:note-add' %}" class="btn btn-success btn-md">Add A Note</a>
+            <div class="spacer"></div>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'criminals:vehicle-add' %}" class="btn btn-primary btn-md">Add A Vehicle</a>
+            <div class="spacer"></div>
+        </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- Content Row -->
+    <div id="contentRow">
+        <h2>Personal Details</h2>
+        <hr>
+        <table class="table table-bordered text-center">
+            <thead class="thead-light">
+                <tr>
+                    <th>Photo</th>
+                    <th>Full Name</th>
+                    <th>Alias</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Vehicle</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img class="img-fluid img-thumbnail" src="{{ person.photo.url }}"></td>
+                    <td>{{ person.firstName }} {{ person.lastName }}</td>
+                    <td>{{ person.alias }}</td>
+                    <td>{{ person.dob }}</td>
+                    <td>{{ person.gender }}</td>
+                    <td>
+                        <ol>
+                        {% for i in person.vehicle_set.all %}
+                            <li>
+                                <a class="font-weight-light" href="{% url 'criminals:vehicle-detail' i.id %}">
+                                {{ i.license_plate }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                        </ol>
+                    </td>
+                    <td>{{ person.address }}, {{ person.city }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="spacer"></div>
+
+        <h2>Description</h2>
+        <hr>
+
+        {% for i in person.desc_set.all %}
+        <table class="table table-bordered text-center">
+            <thead class="thead-light">
+                <tr>
+                    <th>Height</th>
+                    <th>Weight</th>
+                    <th>Build</th>
+                    <th>Hair</th>
+                    <th>Eyes</th>
+                    <th>Teeth</th>
+                    <th>Complexion</th>
+                    <th>Facial Hair</th>
+                    <th>Tattoos</th>
+                    <th>Scars</th>
+                    <th>Face Shape</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ i.height }}</td>
+                    <td>{{ i.weight }} lbs</td>
+                    <td>{{ i.build }}</td>
+                    <td>{{ i.hair }}</td>
+                    <td>{{ i.eyes }}</td>
+                    <td>{{ i.teeth }}</td>
+                    <td>{{ i.complexion }}</td>
+                    <td>{{ i.facial_hair }}</td>
+                    <td>{{ i.tattoos }}</td>
+                    <td>{{ i.scars }}</td>
+                    <td>{{ i.face_shape }}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% endfor %}
+
+        <div class="spacer"></div>
+
+        <h2 id="synopsis">Synopsis</h2>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <h5>Crimes Committed</h5>
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Offences</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in person.offence_set.all reversed %}
+                        <tr>
+                            <td>{{ i.offence }}</td>
+                            <td>{{ i.status }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-8 text-center">
+                <h5>Case Notes</h5>
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Date of Entry</th>
+                            <th>Nature of Entry</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in person.report_set.all reversed %}
+                        <tr>
+                            <td>{{ i.date }}</td>
+                            <td>{{ i.notes }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+
+<div class="spacer"></div>
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">&copy; Shanice Dick &#183; 00050137 &#183; BSc Internet Technology</p>
+        <p class="m-0 text-center text-white">College of Science Technology and Applied Arts of Trinidad and Tobago</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'criminals/vendors/jquery/jquery.min.js '%}"></script>
+<script src="{% static 'criminals/vendors/bootstrap/js/bootstrap.bundle.min.js '%}"></script>
+</body>
+</html>

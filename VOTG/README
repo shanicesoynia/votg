@@ -1,0 +1,13 @@
+Credentials for User Accounts
+
+(127.0.0.1:8000/accounts/login)
+Username: 12345
+Password: default123
+
+Username: 18241
+Password: default1234
+
+** ADMIN **
+(127.0.0.1:8000/admin)
+Username: admin
+Password: admin
